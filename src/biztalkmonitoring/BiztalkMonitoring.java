@@ -18,8 +18,8 @@ public class BiztalkMonitoring {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
-         Runtime runtime = Runtime.getRuntime();
+    /*public static void main(String[] args) throws IOException {
+        Runtime runtime = Runtime.getRuntime();
         Process proc = runtime.exec("powershell.exe C:\\Temp\\biztalkquery.ps1");
         InputStream is = proc.getInputStream();
         InputStreamReader isr = new InputStreamReader(is);
@@ -28,9 +28,56 @@ public class BiztalkMonitoring {
         while ((line = reader.readLine()) != null)
         {
             System.out.println(line);
+            BiztalkMonitoring passline = new BiztalkMonitoring();
+            //passline.cutString(line);
         }
         reader.close();
         proc.getOutputStream().close();
-    }
+    }*/
     
-}
+    public void cutString(String line){
+        
+        
+        
+    }
+    /*public static void main(String[] args) {
+        boolean status;
+        checker ftpcheck = new checker();
+        status = ftpcheck.serverListening("1.188.114.36", 3389);
+        if (status){
+           System.out.print("Success");
+        } else {
+            System.out.print("Failure");
+        }
+        
+    }*/
+    
+    public static void main(String[] args) {
+    String[] entries = new String[10000];
+    String str2 = "ftp://";
+    //Load Path File
+      sourceReader file = new sourceReader();
+      entries = file.readFile("C:\\Temp\\biztalkoutput.txt");
+      for (int cnt=1; cnt < file.cnt; cnt++)
+      {
+          //System.out.println(entries[cnt]);
+          
+          if (entries[cnt].toLowerCase().contains(str2.toLowerCase())) {
+          
+              //System.out.println(entries[cnt]);
+              String delims = str2;
+              String[] tokens = entries[cnt].split(delims);
+              //System.out.println(tokens[1]);
+              String delims2 = "[/]";
+              String[] tokens2 = tokens[1].split(delims2);
+              System.out.println(tokens2[0]);
+              
+              
+          }
+          
+         
+          
+      }
+      
+    }
+}   
