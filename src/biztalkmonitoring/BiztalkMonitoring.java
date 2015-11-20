@@ -57,7 +57,7 @@ public class BiztalkMonitoring {
     String str2 = "ftp://";
     //Load Path File
       sourceReader file = new sourceReader();
-      entries = file.readFile("C:\\Temp\\biztalkoutput.txt");
+      entries = file.readFile("C:\\biztalkmonitoring\\biztalkoutput.txt");
       for (int cnt=1; cnt < file.cnt; cnt++)
       {
           //System.out.println(entries[cnt]);
@@ -70,7 +70,11 @@ public class BiztalkMonitoring {
               //System.out.println(tokens[1]);
               String delims2 = "[/]";
               String[] tokens2 = tokens[1].split(delims2);
-              System.out.println(tokens2[0]);
+              //System.out.println(tokens2[0]);
+              String delims3 = "[:]";
+              String[] tokens3 = tokens2[0].split(delims3);
+              System.out.println("IP: " + tokens3[0] + " Port: " + tokens3[1]);
+              
               
               
           }
@@ -78,6 +82,9 @@ public class BiztalkMonitoring {
          
           
       }
+      
+      sourceWriter logFile = new sourceWriter();
+      logFile.writeFile("testing markaves");
       
     }
 }   
