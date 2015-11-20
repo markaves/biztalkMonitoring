@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.stream.Stream;
 
 /**
  *
@@ -53,38 +54,63 @@ public class BiztalkMonitoring {
     }*/
     
     public static void main(String[] args) {
-    String[] entries = new String[10000];
+    String[] entries_0 = new String[10000];
     String str2 = "ftp://";
+    int cnt2 = 0;
+    String[] ftp_entries = new String[100000];
     //Load Path File
       sourceReader file = new sourceReader();
-      entries = file.readFile("C:\\biztalkmonitoring\\biztalkoutput.txt");
+      entries_0 = file.readFile("C:\\biztalkmonitoring\\biztalkoutput.txt");
       for (int cnt=1; cnt < file.cnt; cnt++)
       {
           //System.out.println(entries[cnt]);
+          String entries = entries_0[cnt].replaceAll("\\s+"," ");
+          if (entries.toLowerCase().contains(str2.toLowerCase())) {
           
-          if (entries[cnt].toLowerCase().contains(str2.toLowerCase())) {
-          
-              //System.out.println(entries[cnt]);
+              //System.out.println(entries);
+              String delims_0 = "[ ]";
+              String[] tokens_0 = entries.split(delims_0);
+              String instance_id = tokens_0[8];
+              //System.out.println(instance_id);
               String delims = str2;
-              String[] tokens = entries[cnt].split(delims);
+              String[] tokens = entries.split(delims);
               //System.out.println(tokens[1]);
               String delims2 = "[/]";
               String[] tokens2 = tokens[1].split(delims2);
               //System.out.println(tokens2[0]);
               String delims3 = "[:]";
               String[] tokens3 = tokens2[0].split(delims3);
-              System.out.println("IP: " + tokens3[0] + " Port: " + tokens3[1]);
+              //System.out.println("IP: " + tokens3[0] + " Port: " + tokens3[1]);
+              ftp_entries[cnt2] = tokens3[0] + " " + tokens3[1];
+              cnt2++;
               
               
-              
+          } else {
+              //System.out.println(entries[cnt]);
           }
           
          
           
       }
       
-      sourceWriter logFile = new sourceWriter();
-      logFile.writeFile("testing markaves");
+      
+      
+      //Check FTP ports
+      checker ftpcheck = new checker();
+      //Stream.of(ftp_entries).distinct().forEach(i -> System.out.println(" " + i));
+      try
+        { 
+        Stream.of(ftp_entries).distinct().forEach(i -> ftpcheck.serverListening(i));
+        //Stream<String> array1 = Stream.of(ftp_entries).distinct();
+         }
+        catch(NullPointerException e)
+        {
+            System.out.print("NullPointerException caught");
+        }
+        //System.out.println(array1[0]);
+        String ftpresult = ftpcheck.ftpResult();
+        sourceWriter logFile = new sourceWriter();
+        logFile.writeFile(ftpresult);
       
     }
 }   

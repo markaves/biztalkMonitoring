@@ -8,6 +8,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.*;
+import java.text.*;
 /**
  *
  * @author aves
@@ -25,9 +27,15 @@ public class sourceWriter {
 				file.createNewFile();
 			}
 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
 			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(text);
+                        
+                        Date dNow = new Date( );
+                        SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd hh:mm:ss a zzz");
+                        //System.out.println("Current Date: " + ft.format(dNow));
+                        
+			bw.write(ft.format(dNow) + " " + text);
+                        bw.newLine();
 			bw.close();
 
 			System.out.println("Done");
